@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Settings | MollyTech</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/account.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="{{ url_for('static', filename='images/mollytech_logo.jpg') }}" class="logo">
+            </div>
+
+            <div class="brand-text">
+                <h2>MollyTech</h2>
+                <p>PC Hardware & Services</p>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <a href="/"><li>📊 Dashboard</li></a>
+            <a href="/products"><li>📦 Product Listing</li></a>
+            <a href="/sales"><li>💰 Sales</li></a>
+            <a href="/archives"><li>🗂 Archives</li></a>
+            <a href="/account"><li>👤 Account</li></a>
+        </ul>
+
+        <div class="logout-section">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- TOAST -->
+        <div id="toast" class="toast"></div>
+
+        <!-- HEADER -->
+        <div class="topbar">
+            <div>
+                <h1>Account Settings</h1>
+                <p class="subtitle">Manage your profile & security</p>
+            </div>
+        </div>
+
+        <!-- PROFILE HEADER -->
+        <div class="profile-header">
+
+            <div class="avatar">
+                {{ user[0][0] | upper }}
+            </div>
+
+            <div class="profile-info">
+                <h2>{{ user[0] }}</h2>
+                <p>Administrator • MollyTech System</p>
+            </div>
+
+            <div class="status-badge">ACTIVE</div>
+
+        </div>
+
+        <!-- GRID -->
+        <div class="account-grid">
+
+            <!-- LEFT CARD -->
+            <div class="table-card">
+
+                <h3>Profile Settings</h3>
+
+                <form method="POST" action="/update-account">
+
+                    <label>Username</label>
+                    <input type="text" value="{{ user[0] }}" disabled>
+
+                    <label>Email Address</label>
+                    <input type="email" name="email" value="{{ user[1] }}" required>
+
+                    <button type="submit" class="add-btn">
+                        Save Changes
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- RIGHT CARD -->
+            <div class="info-card">
+
+                <h3>Account Overview</h3>
+
+                <p>This account has full administrative access to the MollyTech system.</p>
+                <p>You can manage products, sales, archives, and system data.</p>
+
+                <div class="badge">SYSTEM ADMIN</div>
+
+                <div class="mini-stats">
+
+                    <div class="stat">
+                        <span class="stat-title">Role</span>
+                        <span class="stat-value">Admin</span>
+                    </div>
+
+                    <div class="stat">
+                        <span class="stat-title">Status</span>
+                        <span class="stat-value">Active</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- ✅ FLASH MESSAGE BRIDGE (FIXED SAFE VERSION) -->
+<!-- FLASH MESSAGE BRIDGE -->
+<script id="flash-data" type="application/json">
+    {{ get_flashed_messages(with_categories=true) | tojson }}
+</script>
+
+<!-- JS FILE -->
+<script src="{{ url_for('static', filename='js/account.js') }}"></script>
+
+</body>
+</html>

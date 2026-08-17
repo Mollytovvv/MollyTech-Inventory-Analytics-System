@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales | MollyTech</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sales.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="{{ url_for('static', filename='images/mollytech_logo.jpg') }}" class="logo">
+            </div>
+
+            <div class="brand-text">
+                <h2>MollyTech</h2>
+                <p>PC Hardware & Services</p>
+            </div>
+        </div>
+
+        <!-- TOP NAV -->
+        <ul class="nav-links">
+            <a href="/"><li>📊 Dashboard</li></a>
+            <a href="/products"><li>📦 Product Listing</li></a>
+            <a href="/sales"><li>💰 Sales</li></a>
+            <a href="/archives"><li>🗂 Archives</li></a>
+            <a href="/account"><li>👤 Account</li></a>
+        </ul>
+
+        <!-- BOTTOM LOGOUT -->
+        <div class="logout-section">
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- HEADER -->
+        <div class="topbar">
+
+            <div>
+                <h1>Sales Analytics</h1>
+                <p class="subtitle">
+                    Revenue performance overview
+                </p>
+            </div>
+
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+
+            <div class="kpi-card">
+                <div class="kpi-title">Today Revenue</div>
+                <div class="kpi-value">
+                    ₱{{ "{:,.2f}".format(today_revenue or 0) }}
+                </div>
+                <div class="kpi-sub">Current day sales</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Today Profit</div>
+                <div class="kpi-value">
+                    ₱{{ "{:,.2f}".format(today_profit or 0) }}
+                </div>
+                <div class="kpi-sub">Net profit today</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Monthly Revenue</div>
+                <div class="kpi-value">
+                    ₱{{ "{:,.2f}".format(monthly_revenue or 0) }}
+                </div>
+                <div class="kpi-sub">This month total</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Total Profit</div>
+                <div class="kpi-value">
+                    ₱{{ "{:,.2f}".format(total_profit or 0) }}
+                </div>
+                <div class="kpi-sub">All-time earnings</div>
+            </div>
+
+            <!-- TOP PRODUCT CARD -->
+            <div class="kpi-card highlight-card">
+                <div class="kpi-title">Top Product</div>
+
+                <div class="kpi-value">
+                    {{ top_product_name }}
+                </div>
+
+                <div class="kpi-sub">
+                    {{ top_product_brand }} • {{ top_product_count }} sold
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-container">
+            <h3>Profit Over Time</h3>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <!-- SALES TABLE -->
+        <div class="sales-header">
+
+            <div>
+                <h3>Sales History</h3>
+                <p class="sales-subtitle">Monitor completed transactions</p>
+            </div>
+
+            <div class="sales-controls">
+
+                <input type="text" id="salesSearch" placeholder="Search product, brand, category...">
+
+                <select id="salesFilter">
+                    <option value="all">All Sales</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+
+                <select id="salesSort">
+                    <option value="latest">Latest</option>
+                    <option value="profit">Highest Profit</option>
+                    <option value="revenue">Highest Revenue</option>
+                </select>
+
+            </div>
+
+        </div>
+
+            <table class="product-table">
+
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Sold Price</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+
+                <tbody>
+                {% for s in sales %}
+                    <tr>
+                        <td>{{ s[0] }}</td>
+                        <td>{{ s[1] }}</td>
+                        <td>{{ s[2] }}</td>
+                        <td>{{ s[3] }}</td>
+                        <td>₱{{ "{:,.2f}".format(s[4] or 0) }}</td>
+                        <td>₱{{ "{:,.2f}".format(s[5] or 0) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script id="sales-data" type="application/json">
+{
+    "dates": {{ dates | tojson }},
+    "profits": {{ amounts | tojson }}
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/sales.js') }}"></script>
+
+</body>
+</html>

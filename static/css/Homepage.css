@@ -1,0 +1,513 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Inter", sans-serif;
+    background: #0b1120;
+    color: #e2e8f0;
+    overflow-x: hidden;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container{
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width: 260px;
+    background: #0f172a;
+    border-right: 1px solid rgba(255,255,255,0.05);
+
+    padding: 30px 22px;
+
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* BRANDING LOGO */
+
+.brand{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-bottom: 45px;
+}
+
+.brand-logo{
+    width: 68px;
+    height: 68px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    padding: 3px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 10px 30px rgba(37,99,235,0.35);
+}
+
+.logo{
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 18px;
+
+    background: #0f172a;
+}
+
+.brand-text h2{
+    font-size: 24px;
+    font-weight: 700;
+
+    color: white;
+
+    margin-bottom: 2px;
+
+    letter-spacing: 0.3px;
+}
+
+.brand-text p{
+    color: #64748b;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sidebar ul{
+    list-style: none;
+}
+
+.sidebar ul li{
+    padding: 15px 18px;
+    border-radius: 14px;
+
+    margin-bottom: 12px;
+
+    color: #94a3b8;
+    font-weight: 500;
+
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.sidebar ul li:hover{
+    background: #111c44;
+    color: white;
+    transform: translateX(4px);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.main-content{
+    flex: 1;
+    margin-left: 260px;
+
+    padding: 35px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 35px;
+}
+
+.topbar h1{
+    font-size: 34px;
+    font-weight: 700;
+    color: white;
+}
+
+.subtitle{
+    margin-top: 6px;
+    color: #94a3b8;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.add-btn{
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color: white;
+    border: none;
+
+    padding: 14px 22px;
+
+    border-radius: 14px;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.add-btn:hover{
+    transform: translateY(-2px);
+}
+
+/* =========================
+   KPI GRID
+========================= */
+
+.stats-grid{
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+
+    margin-bottom: 28px;
+}
+
+.stat-card{
+    background: #111827;
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    border-radius: 22px;
+
+    padding: 28px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: 0.25s;
+}
+
+.stat-card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(59,130,246,0.4);
+}
+
+.stat-info h3{
+    color: #94a3b8;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.stat-info p{
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-icon{
+    width: 62px;
+    height: 62px;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+}
+
+.blue{
+    background: rgba(59,130,246,0.18);
+}
+
+.green{
+    background: rgba(34,197,94,0.18);
+}
+
+.red{
+    background: rgba(239,68,68,0.18);
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid{
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 24px;
+
+    margin-bottom: 28px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.chart-card,
+.activity-card,
+.mini-card{
+    background: #111827;
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    border-radius: 22px;
+
+    padding: 26px;
+}
+
+/* =========================
+   CARD HEADER
+========================= */
+
+.card-header{
+    margin-bottom: 25px;
+}
+
+.card-header h2{
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.card-header p{
+    margin-top: 5px;
+    color: #94a3b8;
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.chart-controls{
+    display: flex;
+    gap: 10px;
+}
+
+/* BUTTON STYLE */
+.chart-btn{
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    color: #94a3b8;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.chart-btn:hover{
+    background: rgba(59,130,246,0.15);
+    color: white;
+    border-color: rgba(59,130,246,0.4);
+}
+
+/* ACTIVE BUTTON */
+.chart-btn.active{
+    background: rgba(59,130,246,0.25);
+    color: white;
+    border-color: rgba(59,130,246,0.6);
+}
+
+.chart-wrapper{
+    position: relative;
+    height: 420px;
+    width: 100%;
+}
+
+#profitChart{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-list{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.summary-item{
+    background: rgba(255,255,255,0.03);
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-item span{
+    color: #94a3b8;
+}
+
+.summary-item strong{
+    color: white;
+}
+
+.status-live{
+    color: #22c55e;
+}
+
+/* =========================
+   LOWER GRID
+========================= */
+
+.bottom-grid{
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+}
+
+.mini-card h3{
+    color: #94a3b8;
+    margin-bottom: 14px;
+}
+
+.mini-card p{
+    color: white;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.mini-card span{
+    color: #64748b;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1200px){
+
+    .dashboard-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-grid{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width: 900px){
+
+    .sidebar{
+        display: none;
+    }
+
+    .main-content{
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .stats-grid{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* LOGOUT BUTTON */
+.nav-links {
+    flex: 1;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* logout section pinned bottom */
+.logout-section {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    padding: 12px 14px;
+
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
+
+    border-radius: 12px;
+
+    font-weight: 500;
+    font-size: 14px;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+
+    transform: translateY(-1px);
+}

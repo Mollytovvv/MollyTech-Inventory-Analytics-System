@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MollyTech Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Homepage.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="{{ url_for('static', filename='images/mollytech_logo.jpg') }}" class="logo">
+            </div>
+
+            <div class="brand-text">
+                <h2>MollyTech</h2>
+                <p>PC Hardware & Services</p>
+            </div>
+        </div>
+
+        <!-- TOP NAV -->
+        <ul class="nav-links">
+            <a href="/"><li>📊 Dashboard</li></a>
+            <a href="/products"><li>📦 Product Listing</li></a>
+            <a href="/sales"><li>💰 Sales</li></a>
+            <a href="/archives"><li>🗂 Archives</li></a>
+            <a href="/account"><li>👤 Account</li></a>
+        </ul>
+
+        <!-- BOTTOM LOGOUT -->
+        <div class="logout-section">
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- HEADER -->
+        <div class="topbar">
+
+            <div>
+                <h1>Dashboard Overview</h1>
+                <p class="subtitle">
+                    Monitor inventory performance and sales analytics
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- KPI CARDS -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Total Products</h3>
+                    <p>{{ total }}</p>
+                </div>
+
+                <div class="stat-icon blue">
+                    📦
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Available Stock</h3>
+                    <p>{{ available }}</p>
+                </div>
+
+                <div class="stat-icon green">
+                    ✔
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Sold Products</h3>
+                    <p>{{ sold }}</p>
+                </div>
+
+                <div class="stat-icon red">
+                    💰
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CHART SECTION -->
+        <div class="dashboard-grid">
+
+            <!-- MAIN CHART -->
+        <div class="chart-card">
+
+            <!-- HEADER BAR -->
+            <div class="chart-header">
+
+                <div>
+                    <h2>Revenue Analytics</h2>
+                    <p>Sales performance overview</p>
+                </div>
+
+                <!-- BUTTON GROUP -->
+                <div class="chart-controls">
+                    <button class="chart-btn active">All</button>
+                    <button class="chart-btn">Month</button>
+                    <button class="chart-btn">Week</button>
+                    <button class="chart-btn">Day</button>
+                </div>
+
+            </div>
+
+            <!-- CHART -->
+            <div class="chart-wrapper">
+                <canvas id="profitChart"></canvas>
+            </div>
+
+        </div>
+
+                <!-- SIDE PANEL -->
+        <div class="activity-card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Quick Summary</h2>
+                    <p>Business insights</p>
+                </div>
+            </div>
+
+            <div class="summary-list">
+
+                <div class="summary-item">
+                    <span>Total Inventory</span>
+                    <strong>{{ total }}</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Available Items</span>
+                    <strong>{{ available }}</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Completed Sales</span>
+                    <strong>{{ sold }}</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Status</span>
+                    <strong class="status-live">Operational</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+            <!-- LOWER ANALYTICS -->
+        <div class="bottom-grid">
+
+            <div class="mini-card">
+                <h3>Daily Revenue</h3>
+                <p>₱{{ "{:,.2f}".format(today_revenue) }}</p>
+                <span>
+                    {% if daily_growth >= 0 %}
+                        ↑ {{ "%.2f"|format(daily_growth) }}% from yesterday
+                    {% else %}
+                        ↓ {{ "%.2f"|format(daily_growth|abs) }}% from yesterday
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="mini-card">
+                <h3>Monthly Sales</h3>
+                <p>₱{{ "{:,.2f}".format(monthly_revenue) }}</p>
+                <span>
+                    {% if monthly_growth >= 0 %}
+                        ↑ {{ "%.2f"|format(monthly_growth) }}% growth
+                    {% else %}
+                        ↓ {{ "%.2f"|format(monthly_growth|abs) }}% drop
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="mini-card">
+                <h3>Category</h3>
+                <p>Computer Parts</p>
+                <span>Most active inventory</span>
+            </div>
+
+        </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script id="chart-data" type="application/json">
+{{ {
+    "dates": chartDates,
+    "revenue": chartRevenue,
+    "profit": chartProfit
+} | tojson }}
+</script>
+
+<script src="{{ url_for('static', filename='js/Homepage.js') }}"></script>
+
+</body>
+</html>

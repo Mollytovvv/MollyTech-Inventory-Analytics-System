@@ -1,0 +1,196 @@
+/* =========================
+   SALES PAGE (CLEAN SAAS STYLE)
+========================= */
+
+.chart-container {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid #1e293b;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    height: 450px;
+    position: relative;
+}
+
+/* Chart canvas */
+#salesChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* =========================
+   SALES HEADER CONTROLS
+========================= */
+
+.sales-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 20px;
+}
+
+.sales-subtitle {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* Controls container */
+.sales-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Inputs + selects */
+.sales-controls input,
+.sales-controls select {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid #1e293b;
+    color: #e5e7eb;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.sales-controls input {
+    width: 220px;
+}
+
+.sales-controls input:focus,
+.sales-controls select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* =========================
+   TABLE DESIGN
+========================= */
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* header */
+.product-table th {
+    padding: 14px;
+    font-size: 13px;
+    color: #94a3b8;
+    background: #0b1220;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+/* rows */
+.product-table td {
+    padding: 14px;
+    font-size: 14px;
+    background: rgba(15, 23, 42, 0.6);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #e5e7eb;
+}
+
+/* hover effect */
+.product-table tr:hover td {
+    background: rgba(59, 130, 246, 0.08);
+    transition: 0.2s;
+}
+
+/* =========================
+   RESPONSIVE FIX
+========================= */
+
+@media (max-width: 768px) {
+
+    .sales-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sales-controls {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sales-controls input {
+        width: 100%;
+    }
+}
+
+/* =========================
+   KPI GRID (FIX MISSING STYLE)
+========================= */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.highlight-card {
+    border: 1px solid #fbbf24;
+}
+
+.highlight-card .kpi-title {
+    color: #fbbf24;
+}
+
+/* KPI CARD */
+.kpi-card {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 18px;
+    transition: 0.2s;
+    backdrop-filter: blur(10px);
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: #3b82f6;
+    transition: 0.2s ease;
+}
+
+/* TITLE */
+.kpi-title {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+/* VALUE */
+.kpi-value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e5e7eb;
+}
+
+/* SUBTEXT */
+.kpi-sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+/* RESPONSIVE KPI */
+@media (max-width: 1024px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

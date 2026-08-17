@@ -1,0 +1,174 @@
+/* =========================
+   ARCHIVES PAGE (SAAS POLISH)
+========================= */
+
+/* =========================
+   HEADER LAYOUT
+========================= */
+
+.archive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 20px;
+}
+
+/* SEARCH INPUT */
+#archiveSearch {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid #1e293b;
+    color: #e5e7eb;
+    padding: 10px 12px;
+    border-radius: 10px;
+    width: 240px;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s;
+}
+
+#archiveSearch:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+.chart-container {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid #1e293b;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* =========================
+   TABLE STYLE
+========================= */
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* HEADER */
+.product-table th {
+    background: #0b1220;
+    color: #94a3b8;
+    padding: 14px;
+    font-size: 13px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+/* ROWS */
+.product-table td {
+    padding: 14px;
+    background: rgba(15, 23, 42, 0.6);
+    color: #e5e7eb;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+}
+
+/* ROW HOVER */
+.product-table tr:hover td {
+    background: rgba(59, 130, 246, 0.08);
+    transition: 0.2s;
+}
+
+/* =========================
+   STATUS BADGE
+========================= */
+
+.sold {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.archive-btn {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.archive-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    transform: scale(1.05);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+/* =========================
+   TOAST (MATCH PRODUCTS EXACTLY)
+========================= */
+
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+
+    background: #1e293b;
+    color: #e2e8f0;
+
+    padding: 14px 18px;
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    opacity: 0;
+    transition: all 0.3s ease;
+
+    z-index: 9999;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast.success {
+    border-left: 4px solid #22c55e;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .archive-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #archiveSearch {
+        width: 100%;
+    }
+}

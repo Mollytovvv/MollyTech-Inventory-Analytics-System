@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Listing | MollyTech</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="{{ url_for('static', filename='images/mollytech_logo.jpg') }}" class="logo">
+            </div>
+
+            <div class="brand-text">
+                <h2>MollyTech</h2>
+                <p>PC Hardware & Services</p>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <a href="/"><li>📊 Dashboard</li></a>
+            <a href="/products"><li>📦 Product Listing</li></a>
+            <a href="/sales"><li>💰 Sales</li></a>
+            <a href="/archives"><li>🗂 Archives</li></a>
+            <a href="/account"><li>👤 Account</li></a>
+        </ul>
+
+        <div class="logout-section">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- TOAST -->
+        <div id="toast" class="toast"></div>
+
+        <!-- 🔥 PAGE-SAFE FLASH SYSTEM (IMPORTANT FIX) -->
+        <div id="flash-container" style="display:none;">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+
+                        <!-- We tag ALL messages so JS can filter by page later -->
+                        <div class="alert alert-{{ category }}" data-page="products">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- HEADER -->
+        <div class="topbar">
+
+            <div>
+                <h1>Product Listing</h1>
+                <p class="subtitle">Manage your Inventory Items</p>
+            </div>
+
+            <div class="topbar-actions">
+
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Search items..."
+                >
+
+                <button class="add-btn" onclick="openAddModal()">
+                    + Add Item
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- TABLE MODULE -->
+        <div class="table-module">
+
+            <div class="filter-bar">
+
+                <div class="chips">
+                    <button class="chip active" data-filter="all">All</button>
+                    <button class="chip" data-filter="available">Available</button>
+                    <button class="chip" data-filter="sold">Sold</button>
+                </div>
+
+                <select id="sortSelect">
+                    <option value="none">Sort By</option>
+                    <option value="name">Name</option>
+                    <option value="price">Price</option>
+                </select>
+
+            </div>
+
+            <div class="table-card">
+
+                <table class="product-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th>Buy Price</th>
+                            <th>Sell Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>{{ item[2] }}</td>
+                            <td>{{ item[3] }}</td>
+                            <td>₱{{ item[4] }}</td>
+                            <td>₱{{ item[5] }}</td>
+
+                            <td>
+                                {% if item[6] == 'sold' %}
+                                    <span class="sold">SOLD</span>
+                                {% else %}
+                                    <span class="available">AVAILABLE</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if item[6] == 'sold' %}
+                                    <form method="POST" action="/archive/{{ item[0] }}" style="display:inline;">
+                                        <button class="archive-btn">Archive</button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="/sell/{{ item[0] }}" style="display:inline;">
+                                        <button class="sell-btn">Sell</button>
+                                    </form>
+
+                                    <button class="edit-btn" data-id="{{ item[0] }}">
+                                        Edit
+                                    </button>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- ADD MODAL -->
+        <div id="addModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Add New Item</h2>
+
+                <form method="POST" action="/add">
+
+                    <label>Name</label>
+                    <input type="text" name="name" required>
+
+                    <label>Brand</label>
+                    <input type="text" name="brand" required>
+
+                    <label>Category</label>
+                    <input type="text" name="category" required>
+
+                    <label>Buy Price</label>
+                    <input type="number" step="0.01" name="buy_price" required>
+
+                    <label>Sell Price</label>
+                    <input type="number" step="0.01" name="sell_price">
+
+                    <button type="submit">Save Item</button>
+                </form>
+
+                <button class="close-btn" onclick="closeAddModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div id="editModal" class="modal hidden">
+            <div class="modal-content">
+
+                <h2>Edit Item</h2>
+
+                <form method="POST" id="editForm">
+
+                    <label>Name</label>
+                    <input type="text" name="name" id="edit_name" required>
+
+                    <label>Brand</label>
+                    <input type="text" name="brand" id="edit_brand" required>
+
+                    <label>Category</label>
+                    <input type="text" name="category" id="edit_category" required>
+
+                    <label>Buy Price</label>
+                    <input type="number" step="0.01" name="buy_price" id="edit_buy_price" required>
+
+                    <label>Sell Price</label>
+                    <input type="number" step="0.01" name="sell_price" id="edit_sell_price">
+
+                    <button type="submit">Update Item</button>
+                </form>
+
+                <button class="close-btn" onclick="closeEditModal()">Close</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+
+</body>
+</html>

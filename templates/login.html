@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | MollyTech</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <!-- LOGO -->
+    <img src="{{ url_for('static', filename='images/mollytech_logo.jpg') }}" class="logo">
+
+    <h2>MollyTech</h2>
+    <p>Inventory Analytics Management System</p>
+
+    <!-- =========================
+         LOGIN FLASH MESSAGES
+    ========================= -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form method="POST">
+
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Username" required>
+        </div>  
+
+        <div class="input-group password-wrapper">
+            <input type="password" name="password" id="password" placeholder="Password" required>
+
+            <span class="toggle-password" onclick="togglePassword()">
+                👁
+            </span>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <!-- FORGOT PASSWORD LINK -->
+        <div class="forgot">
+            <a href="#" onclick="openModal(event)">
+                Forgot password?
+            </a>
+        </div>
+
+    </form>
+
+    <!-- =========================
+         FORGOT PASSWORD MODAL
+    ========================= -->
+    <div id="forgotModal" class="modal">
+
+        <div class="modal-content">
+
+            <span class="close" onclick="closeModal()">&times;</span>
+
+            <h3>Forgot Password</h3>
+            <p>Enter your username to receive reset link</p>
+
+            <!-- =========================
+                 MODAL FLASH (IMPORTANT FIX)
+            ========================= -->
+            <div class="modal-flash">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <form method="POST" action="/forgot-password">
+
+                <input type="text" name="username" placeholder="Username" required>
+
+                <button type="submit">Generate Reset Link</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        Secure Access Only
+    </div>
+
+</div>
+
+<!-- JS FILE -->
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+<!-- TOAST NOTIFICATION (for next JS upgrade) -->
+<div id="toast" class="toast"></div>
+
+</body>
+</html>
