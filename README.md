@@ -82,8 +82,6 @@ The database stores:
 
 ## Project Structure
 
-
-```text
 MollyTech Service Desk System/
 │
 ├── backend/
