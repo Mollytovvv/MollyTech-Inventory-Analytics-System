@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import smtplib
 from email.message import EmailMessage
 from functools import wraps
+from email.mime.image import MIMEImage
 
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
@@ -21,31 +22,309 @@ if not EMAIL_ADDRESS or not EMAIL_PASSWORD:
 # =========================
 # EMAIL UTILITY FUNCTION
 # =========================
-def send_reset_email(to_email, token):
+# =========================
+# EMAIL UTILITY FUNCTION
+# =========================
+def send_reset_email(to_email, token, username):
 
     msg = EmailMessage()
-    msg["Subject"] = "MollyTech Password Reset"
+    msg["Subject"] = "MollyTech Inventory Analytics - Password Reset"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = to_email
 
     reset_link = url_for(
-    "reset_password",
-    token=token,
-    _external=True
-)
+        "reset_password",
+        token=token,
+        _external=True
+    )
 
+    # =========================
+    # PLAIN-TEXT FALLBACK
+    # =========================
     msg.set_content(f"""
-Hello,
+Hello {username},
 
-You requested a password reset.
+We received a request to reset the password for your MollyTech Inventory Analytics account.
 
-Click the link below:
+To reset your password, visit the following link:
+
 {reset_link}
 
-This link expires in 15 minutes.
+This password reset link will expire in 15 minutes.
 
-If this wasn't you, ignore this email.
+If you did not request a password reset, you can safely ignore this email.
+
+MollyTech Inventory Analytics
+Automated System Notification
 """)
+
+    # =========================
+    # HTML EMAIL
+    # =========================
+    html_content = f"""
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset</title>
+</head>
+
+<body style="
+    margin:0;
+    padding:0;
+    background-color:#f4f6f8;
+    font-family:Arial, Helvetica, sans-serif;
+">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-color:#f4f6f8;padding:40px 20px;">
+
+<tr>
+<td align="center">
+
+<table width="600" cellpadding="0" cellspacing="0" border="0"
+       style="
+           max-width:600px;
+           width:100%;
+           background-color:#ffffff;
+           border-radius:10px;
+           overflow:hidden;
+       ">
+
+<!-- HEADER -->
+<tr>
+<td style="
+    background-color:#111827;
+    padding:30px;
+    text-align:center;
+">
+
+    <img src="cid:mollytech_logo"
+         alt="MollyTech"
+         width="100"
+         style="
+             display:block;
+             margin:0 auto 15px auto;
+             border:0;
+             outline:none;
+             text-decoration:none;
+         ">
+
+    <div style="
+        color:#ffffff;
+        font-size:24px;
+        font-weight:bold;
+        letter-spacing:1px;
+    ">
+        MOLLYTECH
+    </div>
+
+    <div style="
+        color:#9ca3af;
+        font-size:13px;
+        margin-top:6px;
+    ">
+        Inventory Analytics
+    </div>
+
+</td>
+</tr>
+
+<!-- CONTENT -->
+<tr>
+<td style="padding:40px;">
+
+    <h1 style="
+        margin:0 0 20px 0;
+        color:#111827;
+        font-size:24px;
+    ">
+        Password Reset Request
+    </h1>
+
+    <p style="
+        margin:0 0 16px 0;
+        color:#374151;
+        font-size:15px;
+        line-height:1.6;
+    ">
+        Hello <strong>{username}</strong>,
+    </p>
+
+    <p style="
+        margin:0 0 24px 0;
+        color:#374151;
+        font-size:15px;
+        line-height:1.6;
+    ">
+        We received a request to reset the password associated
+        with your MollyTech Inventory Analytics account.
+    </p>
+
+    <p style="
+        margin:0 0 28px 0;
+        color:#374151;
+        font-size:15px;
+        line-height:1.6;
+    ">
+        Click the button below to create a new password:
+    </p>
+
+    <!-- BUTTON -->
+    <table cellpadding="0" cellspacing="0" border="0" align="center">
+
+        <tr>
+
+            <td align="center"
+                style="
+                    background-color:#111827;
+                    border-radius:6px;
+                ">
+
+                <a href="{reset_link}"
+                   style="
+                       display:inline-block;
+                       padding:14px 28px;
+                       color:#ffffff;
+                       text-decoration:none;
+                       font-size:14px;
+                       font-weight:bold;
+                   ">
+                    RESET PASSWORD
+                </a>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <!-- SECURITY NOTICE -->
+    <div style="
+        margin-top:30px;
+        padding:15px;
+        background-color:#f9fafb;
+        border-left:4px solid #111827;
+    ">
+
+        <p style="
+            margin:0;
+            color:#374151;
+            font-size:13px;
+            line-height:1.5;
+        ">
+
+            <strong>Security Notice:</strong><br>
+
+            This password reset link will expire in
+            <strong>15 minutes</strong>.
+
+        </p>
+
+    </div>
+
+    <p style="
+        margin:25px 0 0 0;
+        color:#6b7280;
+        font-size:13px;
+        line-height:1.6;
+    ">
+        If you did not request a password reset,
+        you can safely ignore this email.
+        Your account will remain unchanged.
+    </p>
+
+    <!-- FALLBACK LINK -->
+    <p style="
+        margin:25px 0 0 0;
+        color:#6b7280;
+        font-size:12px;
+        line-height:1.5;
+    ">
+        If the button above does not work,
+        copy and paste the following link into your browser:
+    </p>
+
+    <p style="
+        word-break:break-all;
+        color:#4b5563;
+        font-size:12px;
+    ">
+        {reset_link}
+    </p>
+
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+
+<td style="
+    background-color:#f9fafb;
+    padding:22px 30px;
+    text-align:center;
+    border-top:1px solid #e5e7eb;
+">
+
+    <p style="
+        margin:0;
+        color:#6b7280;
+        font-size:12px;
+    ">
+        MollyTech Inventory Analytics
+    </p>
+
+    <p style="
+        margin:6px 0 0 0;
+        color:#9ca3af;
+        font-size:11px;
+    ">
+        Automated System Notification
+    </p>
+
+</td>
+
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>
+"""
+
+    msg.add_alternative(html_content, subtype="html")
+
+    # =========================
+    # EMBED LOGO
+    # =========================
+
+    logo_path = os.path.join(
+        BASE_DIR,
+        "static",
+        "images",
+        "mollytech_logo.jpg"
+    )
+
+    with open(logo_path, "rb") as img:
+        logo_data = img.read()
+
+    msg.get_payload()[1].add_related(
+        logo_data,
+        maintype="image",
+        subtype="jpeg",
+        cid="<mollytech_logo>"
+    )
+
+    # =========================
+    # SEND EMAIL
+    # =========================
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
@@ -660,7 +939,7 @@ def forgot_password():
     cur.close()
     conn.close()
 
-    send_reset_email(email, token)
+    send_reset_email(email, token, username)
 
     flash("Reset link sent to email!", "success")
     return redirect(url_for("login"))
