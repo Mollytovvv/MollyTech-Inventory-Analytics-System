@@ -4,3 +4,4 @@ __pycache__/
 venv/
 .venv/
 EMAIL_ADDRESS=*
+mollytech_backup.sql
